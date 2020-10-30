@@ -1,0 +1,33 @@
+body {
+  margin: 2%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.title{
+   text-align: center;
+   background-color: rgb(110, 165, 167);
+   height: 60px;
+}
+.card{
+  display: grid;
+  grid-template-columns: 40% 60% ;
+}
+.div-card1{
+  margin-top: 5px;
+}
+#reposCard{
+  box-shadow: 2px 5px #bfc0c0 ;
+  margin: 5px;
+}
+.div-card1{
+  box-shadow: 2px 5px #bfc0c0 ;
+  margin: 5px;
+}
