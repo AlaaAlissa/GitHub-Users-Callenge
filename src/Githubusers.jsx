@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 export default class Githubusers extends Component {
     constructor(props) {
@@ -10,6 +10,7 @@ export default class Githubusers extends Component {
              user : {},
              input:'AlaaAlissa',
              repos:[],
+             error:null,
         }
     }
     componentDidMount =() => {
@@ -17,20 +18,62 @@ export default class Githubusers extends Component {
     }
     onClick = ()=>{
         const { input } = this.state
-        axios.get(`https://api.github.com/users/${input}?client_id=xxxxxxxxx&client_secret=xxxxxxxxxxxxxxxxx&sort=created`)
-        .then( res => 
-            this.setState({ 
-                user : res.data,
-               
-            }))
-        .catch(err => console.log(err))
-        axios.get(`https://api.github.com/users/${input}/repos`)
-        .then( res =>
-            this.setState({    
-                repos : res.data,
-                input:'',
-            }))
-        .catch(err => console.log(err))
+        if(input !== ''){
+            //******** make one axios requist for tow Api's***********
+            const one= `https://api.github.com/users/${input}?client_id=************&client_secret=**********&sort=created`;
+            const two = `https://api.github.com/users/${input}/repos`;
+
+            const requestOne = axios.get(one);
+            const requestTwo = axios.get(two);
+            axios
+                .all([requestOne, requestTwo])
+                .then(
+                    axios.spread((...responses) => {
+                    const responseOne = responses[0];
+                    const responseTwo = responses[1];
+                    console.log(responseOne)
+                    console.log(responseTwo)
+                    this.setState({
+                        user : responseOne.data
+                    })
+                    this.setState({
+                        repos : responseTwo.data,
+                        input:'',
+                    })
+                  })
+                )
+                .catch(
+                    error =>
+                            this.setState({
+                                error : 'This user does not exist',
+                                input:'',
+                            }),
+                            err => console.log(err.responseTwo)
+                        
+                )
+         // ********* make two axios requist for tow Api's********
+        // axios.get(`https://api.github.com/users/${input}?client_id=cddb030db81bcd9034db&client_secret=6c1a2b01755947083e29f779f8acaca3f87b7971&sort=created`)
+        // .then( res => 
+        //     this.setState({ 
+        //         user : res.data,
+        //     }))
+        // .catch(error => {
+        //     console.log(error.response)
+        //     this.setState({
+        //         error : 'This user does not exist',
+        //         input:'',
+        //     })
+        // })
+        // axios.get(`https://api.github.com/users/${input}/repos`)
+        // .then( res =>
+        //     this.setState({    
+        //         repos : res.data,
+        //         input:'',
+        //     }))
+        // .catch(err => console.log(err.response))
+       }else {
+        this.setState({error : 'Plase enter user name '})
+       }
     }
 
     onChange=(e)=>{
@@ -39,10 +82,11 @@ export default class Githubusers extends Component {
     
         render() {
             const { user , input, repos } = this.state
-            console.log(repos)
+            // console.log(repos)
         return (
             <div>
                 <label> Searsh For New User </label><br/>
+                <p className="errormesage" >{ this.state.error }</p>
                 <input name='input' value={input} onChange={ this.onChange} /> {' '}
                 <button type="button" onClick={this.onClick}  className="btn btn-primary">
                     Searsh For User
@@ -64,9 +108,9 @@ export default class Githubusers extends Component {
                         <div className="div-card2 card-body">
                             <h4 style={{textAlign: 'center'}}>User Repositories</h4>
                             {repos.map(value => { return (
-                              <div className="card" id="reposCard" style={{width: "100%"}}>
+                              <div className="card" id="reposCard" style={{width: "100%"}} key={value.id}>
                                     <div className="card-header">
-                                        <Link>{ value.clone_url }</Link>
+                                        <a href={ value.clone_url }>{ value.clone_url }</a>
                                     </div>
                                     <ul className="list-group list-group-flush" >
                                         <li className="list-group-item">Name of project : {value.name}</li>
@@ -85,8 +129,6 @@ export default class Githubusers extends Component {
         )
     }
 }
-
-
 
 
 
