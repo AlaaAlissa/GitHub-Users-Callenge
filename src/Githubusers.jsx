@@ -19,7 +19,7 @@ export default class Githubusers extends Component {
     onClick = ()=>{
         const { input } = this.state
         if(input !== ''){
-            //******** make one axios requist for tow Api's***********
+            //******** make one axios requist for two Api's***********
             const one= `https://api.github.com/users/${input}?client_id=************&client_secret=**********&sort=created`;
             const two = `https://api.github.com/users/${input}/repos`;
 
@@ -51,7 +51,7 @@ export default class Githubusers extends Component {
                             err => console.log(err.responseTwo)
                         
                 )
-         // ********* make two axios requist for tow Api's********
+         // ********* make two axios requist for two Api's********
         // axios.get(`https://api.github.com/users/${input}?client_id=cddb030db81bcd9034db&client_secret=6c1a2b01755947083e29f779f8acaca3f87b7971&sort=created`)
         // .then( res => 
         //     this.setState({ 
