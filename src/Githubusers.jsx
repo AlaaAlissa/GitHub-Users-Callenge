@@ -17,7 +17,7 @@ export default class Githubusers extends Component {
     }
     onClick = ()=>{
         const { input } = this.state
-        axios.get(`https://api.github.com/users/${input}?client_id=cddb030db81bcd9034db&client_secret=6c1a2b01755947083e29f779f8acaca3f87b7971&sort=created`)
+        axios.get(`https://api.github.com/users/${input}?client_id=xxxxxxxxx&client_secret=xxxxxxxxxxxxxxxxx&sort=created`)
         .then( res => 
             this.setState({ 
                 user : res.data,
